@@ -8,8 +8,6 @@ import java.util.Date;
 public class Product {
     private String productId;
 
-    private Integer userId;
-
     private String productType;
 
     private String productSize;

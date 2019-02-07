@@ -8,8 +8,6 @@ import java.util.Date;
 public class Installer {
     private Integer installerId;
 
-    private Integer userId;
-
     private String installerName;
 
     private String installerPhone;
