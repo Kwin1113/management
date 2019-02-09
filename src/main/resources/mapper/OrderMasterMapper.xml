@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.kwin.management.mapper.OrderMasterMapper">
+<mapper namespace="org.kwin.management.dao.OrderMasterMapper">
   <resultMap id="BaseResultMap" type="org.kwin.management.entity.OrderMaster">
     <id column="order_id" jdbcType="VARCHAR" property="orderId" />
     <result column="buyer_address" jdbcType="VARCHAR" property="buyerAddress" />
@@ -23,6 +23,11 @@
     <include refid="Base_Column_List" />
     from order_master
     where order_id = #{orderId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from order_master
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from order_master

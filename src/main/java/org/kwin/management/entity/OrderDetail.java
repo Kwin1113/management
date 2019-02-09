@@ -13,13 +13,15 @@ public class OrderDetail {
 
     private String productId;
 
-    private String productName;
+    private String productType;
 
-    private BigDecimal productPrice;
+    private String productSize;
+
+    private Integer productDirection;
+
+    private Integer productPrice;
 
     private Integer productQuantity;
-
-    private String productIcon;
 
     private Date createTime;
 

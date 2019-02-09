@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.kwin.management.mapper.InstallerMapper">
+<mapper namespace="org.kwin.management.dao.InstallerMapper">
   <resultMap id="BaseResultMap" type="org.kwin.management.entity.Installer">
     <id column="installer_id" jdbcType="INTEGER" property="installerId" />
-    <result column="installer_name" jdbcType="INTEGER" property="installerName" />
+    <result column="installer_name" jdbcType="VARCHAR" property="installerName" />
     <result column="installer_phone" jdbcType="VARCHAR" property="installerPhone" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
@@ -24,7 +24,7 @@
   <insert id="insert" parameterType="org.kwin.management.entity.Installer">
     insert into installer (installer_id, installer_name, installer_phone, 
       create_time, update_time)
-    values (#{installerId,jdbcType=INTEGER}, #{installerName,jdbcType=INTEGER}, #{installerPhone,jdbcType=VARCHAR}, 
+    values (#{installerId,jdbcType=INTEGER}, #{installerName,jdbcType=VARCHAR}, #{installerPhone,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="org.kwin.management.entity.Installer">
@@ -51,7 +51,7 @@
         #{installerId,jdbcType=INTEGER},
       </if>
       <if test="installerName != null">
-        #{installerName,jdbcType=INTEGER},
+        #{installerName,jdbcType=VARCHAR},
       </if>
       <if test="installerPhone != null">
         #{installerPhone,jdbcType=VARCHAR},
@@ -68,7 +68,7 @@
     update installer
     <set>
       <if test="installerName != null">
-        installer_name = #{installerName,jdbcType=INTEGER},
+        installer_name = #{installerName,jdbcType=VARCHAR},
       </if>
       <if test="installerPhone != null">
         installer_phone = #{installerPhone,jdbcType=VARCHAR},
@@ -84,7 +84,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="org.kwin.management.entity.Installer">
     update installer
-    set installer_name = #{installerName,jdbcType=INTEGER},
+    set installer_name = #{installerName,jdbcType=VARCHAR},
       installer_phone = #{installerPhone,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP}

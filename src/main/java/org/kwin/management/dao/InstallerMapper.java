@@ -1,4 +1,4 @@
-package org.kwin.management.mapper;
+package org.kwin.management.dao;
 
 import org.kwin.management.entity.Installer;
 
