@@ -1,8 +1,10 @@
 package org.kwin.management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.kwin.management.enums.ProductDirectionEnum;
+import org.kwin.management.utils.EnumUtil;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -26,4 +28,9 @@ public class OrderDetail {
     private Date createTime;
 
     private Date updateTime;
+
+    @JsonIgnore
+    public ProductDirectionEnum getProductDirectionByCode() {
+        return EnumUtil.getByCode(productDirection, ProductDirectionEnum.class);
+    }
 }

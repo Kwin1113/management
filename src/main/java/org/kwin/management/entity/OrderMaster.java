@@ -1,6 +1,9 @@
 package org.kwin.management.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.kwin.management.enums.OrderStatusEnum;
+import org.kwin.management.utils.EnumUtil;
 
 import java.util.Date;
 
@@ -27,4 +30,9 @@ public class OrderMaster {
     private Date createTime;
 
     private Date updateTime;
+
+    @JsonIgnore
+    public OrderStatusEnum getOrderStatusByCode() {
+        return EnumUtil.getByCode(orderStatus, OrderStatusEnum.class);
+    }
 }

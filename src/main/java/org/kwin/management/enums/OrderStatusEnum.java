@@ -3,7 +3,7 @@ package org.kwin.management.enums;
 import lombok.Getter;
 
 @Getter
-public enum OrderStatusEnum {
+public enum OrderStatusEnum implements CodeEnum{
     NEW(0, "新下单"),
     FINISHED(1, "已完结"),
     CANCELED(2, "已取消"),;

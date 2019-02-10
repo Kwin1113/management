@@ -6,11 +6,25 @@ import org.kwin.management.service.InstallerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class InstallerServiceImpl implements InstallerService {
 
     @Autowired
     InstallerMapper installerMapper;
+
+    @Override
+    public List<Installer> list() {
+        List<Installer> installerList = installerMapper.selectAll();
+        return installerList;
+    }
+
+    @Override
+    public Installer selectOne(Integer installerId) {
+        Installer installer = installerMapper.selectByPrimaryKey(installerId);
+        return installer;
+    }
 
     @Override
     public Installer add(Installer installer) {
@@ -25,8 +39,7 @@ public class InstallerServiceImpl implements InstallerService {
     }
 
     @Override
-    public Installer delete(String installerId) {
-        //TODO
-        return null;
+    public void delete(Integer installerId) {
+        installerMapper.deleteByPrimaryKey(installerId);
     }
 }

@@ -2,6 +2,7 @@ package org.kwin.management.service;
 
 import org.kwin.management.dto.CartDTO;
 import org.kwin.management.entity.Product;
+import org.kwin.management.form.ProductAddForm;
 
 import java.util.List;
 
@@ -10,6 +11,8 @@ public interface ProductService {
     List<Product> selectALl();
 
     Product selectOne(String productId);
+
+    Product selectByTypeAndSizeAndDirection(ProductAddForm productAddForm);
 
     int add(Product product);
 

@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kwin.management.dao.ProductMapper;
 import org.kwin.management.entity.Product;
+import org.kwin.management.form.ProductAddForm;
 import org.kwin.management.utils.KeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,5 +61,15 @@ public class ProductMapperTest {
     @Test
     public void deleteByPrimaryKey() {
         productMapper.deleteByPrimaryKey("1549682508704381700");
+    }
+
+    @Test
+    public void selectByTypeAndSizeAndDirection() {
+        ProductAddForm productAddForm = new ProductAddForm();
+        productAddForm.setProductType("T320");
+        productAddForm.setProductSize("200");
+        productAddForm.setProductDirection(2);
+        Product product = productMapper.selectByTypeAndSizeAndDirection("T320","200",2);
+        log.info("product={}", product);
     }
 }

@@ -1,6 +1,7 @@
 package org.kwin.management.dao;
 
 import org.kwin.management.entity.Product;
+import org.kwin.management.form.ProductAddForm;
 
 import java.util.List;
 
@@ -31,6 +32,8 @@ public interface ProductMapper {
      * @return
      */
     List<Product> selectAll();
+
+    Product selectByTypeAndSizeAndDirection(String productType, String productSize, Integer productDirection);
 
     /**
      * 更新

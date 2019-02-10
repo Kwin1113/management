@@ -42,6 +42,12 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDetail> ListAll() {
+        List<OrderDetail> orderDetailList = orderDetailMapper.selectAll();
+        return orderDetailList;
+    }
+
+    @Override
     public OrderDTO selectOne(String orderId) {
         OrderDTO orderDTO = new OrderDTO();
 
@@ -51,6 +57,12 @@ public class OrderServiceImpl implements OrderService {
         orderDTO.setOrderDetailList(orderDetails);
 
         return orderDTO;
+    }
+
+    @Override
+    public OrderDetail selectOneDetail(String detailId) {
+        OrderDetail orderDetail = orderDetailMapper.selectByPrimaryKey(detailId);
+        return orderDetail;
     }
 
     @Override
@@ -91,8 +103,25 @@ public class OrderServiceImpl implements OrderService {
         return orderDTO;
     }
 
+    @Override
+    public OrderDetail addDetail(OrderDetail orderDetail) {
+        orderDetailMapper.insert(orderDetail);
+        //查询所有该订单的订单详情
+        List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderDetail.getOrderId());
+        //重新计算Amount
+        Integer orderAmount = 0;
+        for (OrderDetail detail : orderDetailList) {
+            orderAmount = orderAmount + detail.getProductPrice() * detail.getProductQuantity();
+        }
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderDetail.getOrderId());
+        orderMaster.setOrderAmount(orderAmount);
+        orderMasterMapper.updateByPrimaryKeySelective(orderMaster);
+        return orderDetail;
+    }
+
     /**
      * 变更订单主体信息
+     *
      * @param orderDTO
      * @return
      */
@@ -107,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
 
     /**
      * 变更订单详情信息
+     *
      * @param cartDTOList
      */
     @Override
@@ -136,5 +166,23 @@ public class OrderServiceImpl implements OrderService {
                 .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity())).collect(Collectors.toList());
         productService.incrStock(cartDTOList);
 
+    }
+
+    /**
+     * 重新计算订单总价
+     * @param orderId
+     */
+    @Override
+    public void calculateAmount(String orderId) {
+        //查询所有该订单的订单详情
+        List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderId);
+        //重新计算Amount
+        Integer orderAmount = 0;
+        for (OrderDetail orderDetail : orderDetailList) {
+            orderAmount = orderAmount + orderDetail.getProductPrice() * orderDetail.getProductQuantity();
+        }
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId);
+        orderMaster.setOrderAmount(orderAmount);
+        orderMasterMapper.updateByPrimaryKeySelective(orderMaster);
     }
 }

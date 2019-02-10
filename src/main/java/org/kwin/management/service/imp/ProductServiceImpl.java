@@ -5,6 +5,7 @@ import org.kwin.management.dto.CartDTO;
 import org.kwin.management.entity.Product;
 import org.kwin.management.enums.ResultEnum;
 import org.kwin.management.exception.SysException;
+import org.kwin.management.form.ProductAddForm;
 import org.kwin.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Product selectOne(String productId) {
         Product product = productMapper.selectByPrimaryKey(productId);
+        return product;
+    }
+
+    @Override
+    public Product selectByTypeAndSizeAndDirection(ProductAddForm productAddForm) {
+        String productType = productAddForm.getProductType();
+        String productSize = productAddForm.getProductSize();
+        Integer productDirection = productAddForm.getProductDirection();
+        Product product = productMapper.selectByTypeAndSizeAndDirection(productType, productSize, productDirection);
         return product;
     }
 

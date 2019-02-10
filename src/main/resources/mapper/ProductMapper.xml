@@ -26,6 +26,14 @@
     <include refid="Base_Column_List"/>
     from product
   </select>
+  <select id="selectByTypeAndSizeAndDirection" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from product
+    where product_type = #{productType,jdbcType=VARCHAR}
+    and product_size = #{productSize,jdbcType=VARCHAR}
+    and product_direction = #{productDirection,jdbcType=INTEGER}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from product
     where product_id = #{productId,jdbcType=VARCHAR}
