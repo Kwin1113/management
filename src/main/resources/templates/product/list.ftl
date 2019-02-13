@@ -11,7 +11,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">新增商品</h4>
             </div>
-            <form class="form-horizontal" method="post" action="/product/add">
+            <form class="form-horizontal" method="post" action="/product/add" id="productAddForm">
                 <div class="modal-body">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">款式</label>
@@ -72,7 +72,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">修改商品</h4>
             </div>
-            <form class="form-horizontal" method="post" action="/product/update">
+            <form class="form-horizontal" method="post" action="/product/update" id="productModifyForm">
                 <div class="modal-body">
                     <input hidden type="text" name="productId" id="productId_modify_input">
                     <div class="form-group">
@@ -118,7 +118,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="productModifyBtn">保存</button>
+                    <button type="submit" class="btn btn-primary" id="productModifyBtn" onsubmit="return updateProduct
+                    ()" onclick="return modifyConfirm()">保存
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </form>
@@ -167,7 +169,7 @@
                                 </td>
                                 <td>
                                     <a href="/product/delete/${product.productId}" type="button" class="btn btn-default
-                                    btn-danger">删除</a>
+                                    btn-danger" onclick="return deleteConfirm()">删除</a>
                                 </td>
                             </tr>
                         </#list>
@@ -182,7 +184,7 @@
 <script type="text/javascript">
     function getProduct(productId) {
         $.ajax({
-            url: "/product/selectOne/"+productId,
+            url: "/product/selectOne/" + productId,
             type: "GET",
             async: true,
             datatype: "json",
@@ -203,5 +205,55 @@
             backdrop: "static"
         });
     });
+
+    //增加重复商品
+    $(document).ready(function () {
+        var options = {
+            error: function () {
+                alert("操作失败");
+            },
+            success: function (result) {
+                if (result.msg != "成功") {
+                    alert(result.msg);
+                } else {
+                    location.reload();
+                }
+            },
+            dataType: 'json'
+        };
+        $("#productAddForm").submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+    });
+
+    //修改重复商品
+    $(document).ready(function () {
+        var options = {
+            error: function () {
+                alert("操作失败");
+            },
+            success: function (result) {
+                if (result.msg != "成功") {
+                    alert(result.msg);
+                } else {
+                    location.reload();
+                }
+            },
+            dataType: 'json'
+        };
+        $("#productModifyForm").submit(function () {
+            $(this).ajaxSubmit(options);
+            return false;
+        });
+    });
+
+    //提交update页面不跳转
+    function updateProduct() {
+        $("#productModifyForm").ajaxSubmit(function () {
+        });
+        return false;
+    }
 </script>
+<#include "../common/js.ftl">
 </html>

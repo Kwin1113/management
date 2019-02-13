@@ -7,6 +7,7 @@ import java.util.List;
 public interface OrderMasterMapper {
     /**
      * 删除
+     *
      * @param orderId
      * @return
      */
@@ -14,6 +15,7 @@ public interface OrderMasterMapper {
 
     /**
      * 增加
+     *
      * @param record
      * @return
      */
@@ -21,6 +23,7 @@ public interface OrderMasterMapper {
 
     /**
      * 查找
+     *
      * @param orderId
      * @return
      */
@@ -28,6 +31,7 @@ public interface OrderMasterMapper {
 
     /**
      * 查找全部
+     *
      * @return
      */
     List<OrderMaster> selectAll();

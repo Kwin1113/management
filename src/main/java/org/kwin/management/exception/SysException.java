@@ -1,7 +1,9 @@
 package org.kwin.management.exception;
 
+import lombok.Getter;
 import org.kwin.management.enums.ResultEnum;
 
+@Getter
 public class SysException extends RuntimeException {
     private Integer code;
     private String msg;

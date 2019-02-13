@@ -5,6 +5,7 @@ import org.kwin.management.entity.Installer;
 import org.kwin.management.entity.OrderDetail;
 import org.kwin.management.entity.OrderMaster;
 import org.kwin.management.entity.Product;
+import org.kwin.management.enums.OrderStatusEnum;
 import org.kwin.management.form.OrderForm;
 import org.kwin.management.form.OrderMasterForm;
 import org.kwin.management.form.ProductAddForm;
@@ -100,6 +101,14 @@ public class OrderController {
     public String modify(OrderMasterForm orderMasterForm) {
         OrderDTO orderDTO = new OrderDTO();
         BeanUtils.copyProperties(orderMasterForm, orderDTO);
+        orderService.update(orderDTO);
+        return "redirect:/order/list";
+    }
+
+    @GetMapping("/finish/{orderId}")
+    public String finish(@PathVariable String orderId) {
+        OrderDTO orderDTO = orderService.selectOne(orderId);
+        orderDTO.setOrderStatus(OrderStatusEnum.FINISHED.getCode());
         orderService.update(orderDTO);
         return "redirect:/order/list";
     }

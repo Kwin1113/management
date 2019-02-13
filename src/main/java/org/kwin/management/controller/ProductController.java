@@ -2,6 +2,8 @@ package org.kwin.management.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.kwin.management.entity.Product;
+import org.kwin.management.enums.ResultEnum;
+import org.kwin.management.exception.SysException;
 import org.kwin.management.form.ProductForm;
 import org.kwin.management.service.ProductService;
 import org.kwin.management.utils.KeyUtil;
@@ -42,12 +44,21 @@ public class ProductController {
         return model;
     }
 
+    @ResponseBody
     @PostMapping("/update")
-    public String modify(ProductForm productForm) {
+    public ModelMap modify(ProductForm productForm) {
+        ModelMap model = new ModelMap();
         Product product = productService.selectOne(productForm.getProductId());
         BeanUtils.copyProperties(productForm, product);
-        productService.update(product);
-        return "redirect:/product/list";
+        try {
+            productService.update(product);
+        } catch (SysException e) {
+            log.error("[修改商品]商品已存在={}", e.getMsg());
+            model.addAttribute("msg", e.getMsg());
+            return model;
+        }
+        model.addAttribute("msg", ResultEnum.RESULT_SUCCESS.getMessage());
+        return model;
     }
 
     @GetMapping("/delete/{productId}")
@@ -56,12 +67,21 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
+    @ResponseBody
     @PostMapping("/add")
-    public String add(@Valid ProductForm productForm, BindingResult result) {
+    public ModelMap add(@Valid ProductForm productForm, BindingResult result) {
+        ModelMap model = new ModelMap();
         Product product = new Product();
         BeanUtils.copyProperties(productForm, product);
         product.setProductId(KeyUtil.getUniqueKey());
-        productService.add(product);
-        return "redirect:/product/list";
+        try {
+            productService.add(product);
+        } catch (SysException e) {
+            log.error("[新增商品]商品已存在={}", e.getMsg());
+            model.addAttribute("msg", e.getMsg());
+            return model;
+        }
+        model.addAttribute("msg", ResultEnum.RESULT_SUCCESS.getMessage());
+        return model;
     }
 }

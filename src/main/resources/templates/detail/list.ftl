@@ -85,6 +85,7 @@
                             <th>开向</th>
                             <th>单价</th>
                             <th>数量</th>
+                            <th>订单状态</th>
                             <th>操作</th>
                         </tr>
                         </thead>
@@ -92,35 +93,36 @@
                         <#list orderDetailList as orderDetail>
                             <#list orderMasterList as orderMaster>
                                 <tr>
-                                <#if orderMaster.orderId == orderDetail.orderId>
-                                    <td>
-                                        ${orderMaster.buyerName}
-                                    </td>
-                                    <td>
-                                        ${orderMaster.buyerAddress}
-                                    </td>
-                                    <#list installerList as installer>
-                                        <#if orderMaster.installerId == installer.installerId>
-                                            <td>
-                                                ${installer.installerName}
-                                            </td>
-                                        </#if>
-                                    <#else>
-                                    </#list>
-                                    <td>${orderDetail.productType}</td>
-                                    <td>${orderDetail.productSize}</td>
-                                    <td>
-                                        ${orderDetail.getProductDirectionByCode().message}
-                                    </td>
-                                    <td>¥${orderDetail.productPrice}</td>
-                                    <td>${orderDetail.productQuantity}</td>
-                                    <td>
-                                        <a href="/order/detail/${orderDetail.orderId}" type="button" class="btn btn-default
+                                    <#if orderMaster.orderId == orderDetail.orderId>
+                                        <td>
+                                            ${orderMaster.buyerName}
+                                        </td>
+                                        <td>
+                                            ${orderMaster.buyerAddress}
+                                        </td>
+                                        <#list installerList as installer>
+                                            <#if orderMaster.installerId == installer.installerId>
+                                                <td>
+                                                    ${installer.installerName}
+                                                </td>
+                                            <#else>
+                                                <td>空</td>
+                                            </#if>
+                                        </#list>
+                                        <td>${orderDetail.productType}</td>
+                                        <td>${orderDetail.productSize}</td>
+                                        <td>
+                                            ${orderDetail.getProductDirectionByCode().message}
+                                        </td>
+                                        <td>¥${orderDetail.productPrice}</td>
+                                        <td>${orderDetail.productQuantity}</td>
+                                        <td>${orderMaster.getOrderStatusByCode().message}</td>
+                                        <td>
+                                            <a href="/order/detail/${orderDetail.orderId}" type="button" class="btn btn-default
                                     btn-primary">详情
-                                        </a>
-                                    </td>
-                                </#if>
-                            <#else>
+                                            </a>
+                                        </td>
+                                    </#if>
                                 </tr>
                             </#list>
                         </#list>

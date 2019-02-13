@@ -120,9 +120,9 @@
                         <div class="col-sm-4">
                             <select class="form-control" name="installerId" id="installerIdSelect">
                                 <#list installerList as installer>
-                                <option value="${installer.installerId}">
-                                    ${installer.installerName}
-                                </option>
+                                    <option value="${installer.installerId}">
+                                        ${installer.installerName}
+                                    </option>
                                 </#list>
                             </select>
                         </div>
@@ -145,7 +145,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="orderAddBtn">保存</button>
+                    <button type="submit" class="btn btn-primary" id="orderAddBtn" onclick="return modifyConfirm()">保存
+                    </button>
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                 </div>
             </form>
@@ -177,6 +178,7 @@
                             <th>预付订金</th>
                             <th>订单总价</th>
                             <th>订单状态</th>
+                            <th>查看详情</th>
                             <th colspan="3" style="vertical-align: middle !important;text-align: center;">操作</th>
                         </tr>
                         </thead>
@@ -189,6 +191,8 @@
                                 <#list installerList as installer>
                                     <#if order.installerId == installer.installerId>
                                         <td>${installer.installerName}</td>
+                                    <#else>
+                                        <td>空</td>
                                     </#if>
                                 <#else>
                                 </#list>
@@ -200,17 +204,31 @@
                                     <a href="/order/detail/${order.orderId}" type="button" class="btn btn-default
                                     btn-success">详情</a>
                                 </td>
-                                <td>
-                                    <button type="button" class="btn btn-default btn-primary modify_btn"
-                                            orderId="${order.orderId}">修改
-                                    </button>
-                                </td>
-                                <td>
-                                    <a href="/order/cancel/${order.orderId}" type="button"
-                                       class="btn btn-default btn-danger">取消</a>
-                                </td>
-
-
+                                <#if order.getOrderStatusByCode().message == "新下单">
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-primary modify_btn"
+                                                orderId="${order.orderId}">修改
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <a href="/order/finish/${order.orderId}" type="button"
+                                           class="btn btn-default btn-success" onclick="return finishConfirm()">完成</a>
+                                    </td>
+                                    <td>
+                                        <a href="/order/cancel/${order.orderId}" type="button"
+                                           class="btn btn-default btn-danger" onclick="return cancelConfirm()">取消</a>
+                                    </td>
+                                <#else>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-primary" disabled>修改</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-success" disabled>完成</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-danger" disabled>取消</button>
+                                    </td>
+                                </#if>
                             </tr>
 
                         </#list>
@@ -295,5 +313,7 @@
             backdrop: "static"
         });
     });
+
 </script>
+<#include "../common/js.ftl">
 </html>

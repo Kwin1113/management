@@ -51,16 +51,15 @@
                     <div class="form-group">
                         <label class="col-sm-2 control-label">姓名</label>
                         <div class="col-sm-10">
-                            <input type="text" name="installerName" class="form-control" id="installerName_modify_input"
-                                   placeholder="请输入姓名...">
+                            <input type="text" name="installerName" class="form-control"
+                                   id="installerName_modify_input">
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">联系方式</label>
                         <div class="col-sm-10">
                             <input type="text" name="installerPhone" class="form-control"
-                                   id="installerPhone_modify_input"
-                                   placeholder="请输入联系方式...">
+                                   id="installerPhone_modify_input">
                         </div>
                     </div>
                 </div>
@@ -107,7 +106,7 @@
                                 <td>
                                     <a href="/installer/delete/${installer.installerId}" type="button" class="btn
                                     btn-default
-                                    btn-danger">删除</a>
+                                    btn-danger" onclick="return deleteConfirm()">删除</a>
                                 </td>
                             </tr>
                         </#list>
@@ -122,7 +121,7 @@
 <script type="text/javascript">
     function getInstaller(installerId) {
         $.ajax({
-            url: "/installer/selectOne/"+installerId,
+            url: "/installer/selectOne/" + installerId,
             type: "GET",
             async: true,
             datatype: "json",
@@ -141,4 +140,5 @@
         });
     });
 </script>
+<#include "../common/js.ftl">
 </html>

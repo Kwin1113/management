@@ -1,5 +1,6 @@
 package org.kwin.management.service.imp;
 
+import lombok.extern.slf4j.Slf4j;
 import org.kwin.management.dao.ProductMapper;
 import org.kwin.management.dto.CartDTO;
 import org.kwin.management.entity.Product;
@@ -8,11 +9,13 @@ import org.kwin.management.exception.SysException;
 import org.kwin.management.form.ProductAddForm;
 import org.kwin.management.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class ProductServiceImpl implements ProductService {
 
     @Autowired
@@ -40,9 +43,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int add(Product product) {
-        int result = productMapper.insert(product);
-        return result;
+    public void add(Product product) {
+        try {
+            productMapper.insert(product);
+        } catch (DuplicateKeyException e) {
+            throw new SysException(ResultEnum.PRODUCT_EXIST);
+        }
     }
 
     @Override
@@ -52,9 +58,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public int update(Product product) {
-        int result = productMapper.updateByPrimaryKeySelective(product);
-        return result;
+    public void update(Product product) {
+        try {
+            productMapper.updateByPrimaryKeySelective(product);
+        } catch (DuplicateKeyException e) {
+            throw new SysException(ResultEnum.PRODUCT_EXIST);
+        }
+
     }
 
     @Override

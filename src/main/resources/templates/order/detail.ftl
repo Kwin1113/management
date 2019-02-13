@@ -75,24 +75,25 @@
             <form class="form-horizontal" method="post" action="/detail/update">
                 <div class="modal-body">
                     <input hidden type="text" name="detailId" id="detailId_modify_input">
+                    <input hidden type="text" name="orderId" id="orderId_modify_input">
                     <div class="form-group">
                         <label class="col-sm-2 control-label">型号</label>
                         <div class="col-sm-10">
                             <input type="text" name="productType" class="form-control" id="productType_modify_input"
-                                   placeholder="请输入商品型号...">
+                                   disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">规格</label>
                         <div class="col-sm-10">
                             <input type="text" name="productSize" class="form-control" id="productSize_modify_input"
-                                   placeholder="请输入商品规格...">
+                                   disabled>
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-sm-2 control-label">开向</label>
                         <div class="col-sm-4">
-                            <select class="form-control" name="productDirection">
+                            <select class="form-control" name="productDirection" disabled>
                                 <option value="1" selected>左内开</option>
                                 <option value="2">左外开</option>
                                 <option value="3">右内开</option>
@@ -105,7 +106,7 @@
                         <div class="col-sm-10">
                             <input type="number" name="productPrice" class="form-control"
                                    id="productPrice_modify_input"
-                                   placeholder="请输入商品单价...">
+                                   disabled>
                         </div>
                     </div>
                     <div class="form-group">
@@ -176,7 +177,9 @@
                             <th>开向</th>
                             <th>单价</th>
                             <th>数量</th>
-                            <th colspan="2" style="vertical-align: middle !important;text-align: center;">操作</th>
+                            <#if orderMaster.getOrderStatusByCode().message=='新下单'>
+                                <th colspan="2" style="vertical-align: middle !important;text-align: center;">操作</th>
+                            </#if>
                         </tr>
                         </thead>
                         <tbody>
@@ -189,24 +192,29 @@
                                 </td>
                                 <td>¥${orderDetail.productPrice}</td>
                                 <td>${orderDetail.productQuantity}</td>
-                                <td>
-                                    <button type="button" class="btn btn-default
+                                <#if orderMaster.getOrderStatusByCode().message=='新下单'>
+                                    <td>
+                                        <button type="button" class="btn btn-default
                                     btn-primary modify_btn" detailId="${orderDetail.detailId}" orderId="${orderDetail
-                                    .orderId}">修改
-                                    </button>
-                                </td>
-                                <td>
-                                    <a href="/detail/delete/${orderDetail.detailId}" type="button" class="btn
-                                    btn-default
-                                    btn-danger">删除</a>
-                                </td>
+                                        .orderId}">修改
+                                        </button>
+                                    </td>
+
+                                    <td>
+                                        <a href="/detail/delete/${orderDetail.detailId}/${orderDetail.orderId}"
+                                           type="button"
+                                           class="btn btn-default btn-danger" onclick="return deleteConfirm()">删除</a>
+                                    </td>
+                                </#if>
                             </tr>
                         </#list>
-                        <td>
-                            <button type="button" class="btn btn-default
+                        <#if orderMaster.getOrderStatusByCode().message=='新下单'>
+                            <td>
+                                <button type="button" class="btn btn-default
                                     btn-primary add_btn" orderId="${orderMaster.orderId}">新增
-                            </button>
-                        </td>
+                                </button>
+                            </td>
+                        </#if>
                         </tbody>
                     </table>
                 </div>
@@ -218,7 +226,7 @@
 <script>
     function getDetail(detailId) {
         $.ajax({
-            url: "/detail/selectOne/"+detailId,
+            url: "/detail/selectOne/" + detailId,
             type: "GET",
             async: true,
             datatype: "json",
@@ -235,6 +243,7 @@
     $(document).on("click", ".modify_btn", function () {
         getDetail($(this).attr("detailId"));
         $("#detailId_modify_input").val($(this).attr("detailId"));
+        $("#orderId_modify_input").val($(this).attr("orderId"));
         $("#detailModifyModal").modal({
             backdrop: "static"
         });
@@ -246,9 +255,6 @@
             backdrop: "static"
         });
     });
-    $(document).on("click", ".update_btn", function () {
-        location.reload();
-    });
-
 </script>
+<#include "../common/js.ftl">
 </html>

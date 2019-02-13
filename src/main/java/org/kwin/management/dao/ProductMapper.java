@@ -1,13 +1,13 @@
 package org.kwin.management.dao;
 
 import org.kwin.management.entity.Product;
-import org.kwin.management.form.ProductAddForm;
 
 import java.util.List;
 
 public interface ProductMapper {
     /**
      * 删除
+     *
      * @param productId
      * @return
      */
@@ -15,6 +15,7 @@ public interface ProductMapper {
 
     /**
      * 增加
+     *
      * @param record
      * @return
      */
@@ -22,6 +23,7 @@ public interface ProductMapper {
 
     /**
      * 查找
+     *
      * @param productId
      * @return
      */
@@ -29,6 +31,7 @@ public interface ProductMapper {
 
     /**
      * 查找所有
+     *
      * @return
      */
     List<Product> selectAll();
@@ -37,6 +40,7 @@ public interface ProductMapper {
 
     /**
      * 更新
+     *
      * @param record
      * @return
      */

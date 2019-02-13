@@ -6,7 +6,10 @@ import lombok.Getter;
 public enum ResultEnum {
     STOCK_ERROR(0, "库存错误！"),
     PRODUCT_NOT_EXIST(1, "商品不存在！"),
-    ORDER_STATUS_ERROR(2, "订单状态错误！"),;
+    ORDER_STATUS_ERROR(2, "订单状态错误！"),
+    PRODUCT_EXIST(3, "商品已存在！"),
+    RESULT_SUCCESS(4, "成功"),
+    ;
 
     private Integer code;
 

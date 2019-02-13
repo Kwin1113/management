@@ -7,6 +7,7 @@ import java.util.List;
 public interface OrderDetailMapper {
     /**
      * 删除
+     *
      * @param detailId
      * @return
      */
@@ -14,6 +15,7 @@ public interface OrderDetailMapper {
 
     /**
      * 增加
+     *
      * @param record
      * @return
      */
@@ -21,6 +23,7 @@ public interface OrderDetailMapper {
 
     /**
      * 按详情id查找
+     *
      * @param detailId
      * @return
      */
@@ -31,11 +34,6 @@ public interface OrderDetailMapper {
     List<OrderDetail> selectAll();
 
     int updateByPrimaryKeySelective(OrderDetail record);
-
-
-
-
-
 
     int updateByPrimaryKey(OrderDetail record);
 

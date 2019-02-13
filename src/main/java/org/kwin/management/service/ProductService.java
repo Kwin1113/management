@@ -14,11 +14,11 @@ public interface ProductService {
 
     Product selectByTypeAndSizeAndDirection(ProductAddForm productAddForm);
 
-    int add(Product product);
+    void add(Product product);
 
     int deleteById(String productId);
 
-    int update(Product product);
+    void update(Product product);
 
     void descStock(List<CartDTO> cartDTOList);
 
