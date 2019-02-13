@@ -61,7 +61,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
         OrderDTO orderDTO = orderService.selectOne(orderDetail.getOrderId());
         orderDTO.setOrderAmount(orderAmount);
         orderService.update(orderDTO);
-        //TODO
     }
 
     @Override
