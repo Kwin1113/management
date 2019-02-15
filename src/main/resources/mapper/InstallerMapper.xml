@@ -12,7 +12,7 @@
     installer_id, installer_name, installer_phone, create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from installer
     where installer_id = #{installerId,jdbcType=INTEGER}
@@ -26,7 +26,7 @@
     delete from installer
     where installer_id = #{installerId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="org.kwin.management.entity.Installer">
+  <insert id="insert" parameterType="org.kwin.management.entity.Installer" useGeneratedKeys="true">
     insert into installer (installer_id, installer_name, installer_phone, 
       create_time, update_time)
     values (#{installerId,jdbcType=INTEGER}, #{installerName,jdbcType=VARCHAR}, #{installerPhone,jdbcType=VARCHAR},

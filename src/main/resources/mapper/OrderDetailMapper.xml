@@ -18,7 +18,7 @@
     create_time, update_time
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from order_detail
     where detail_id = #{detailId,jdbcType=VARCHAR}

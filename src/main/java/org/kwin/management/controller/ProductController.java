@@ -57,7 +57,7 @@ public class ProductController {
             model.addAttribute("msg", e.getMsg());
             return model;
         }
-        model.addAttribute("msg", ResultEnum.RESULT_SUCCESS.getMessage());
+        model.addAttribute("msg", ResultEnum.SUCCESS.getMessage());
         return model;
     }
 
@@ -81,7 +81,7 @@ public class ProductController {
             model.addAttribute("msg", e.getMsg());
             return model;
         }
-        model.addAttribute("msg", ResultEnum.RESULT_SUCCESS.getMessage());
+        model.addAttribute("msg", ResultEnum.SUCCESS.getMessage());
         return model;
     }
 }
