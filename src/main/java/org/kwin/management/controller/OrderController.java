@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -80,20 +82,7 @@ public class OrderController {
 
     @PostMapping(value = "/add")
     public String add(@Valid OrderForm orderForm, BindingResult result) {
-        OrderDTO orderDTO = new OrderDTO();
-        BeanUtils.copyProperties(orderForm, orderDTO);
-        List<ProductAddForm> productAddFormList = orderForm.getProductAddFormList();
-        List<OrderDetail> orderDetailList = new ArrayList<>();
-        for (ProductAddForm productAddForm : productAddFormList) {
-            OrderDetail orderDetail = new OrderDetail();
-            Product product = productService.selectByTypeAndSizeAndDirection(productAddForm);
-            BeanUtils.copyProperties(product, orderDetail);
-            orderDetail.setProductQuantity(productAddForm.getProductQuantity());
-            orderDetailList.add(orderDetail);
-        }
-        orderDTO.setOrderDetailList(orderDetailList);
-
-        orderService.add(orderDTO);
+        orderService.add(orderForm);
         return "redirect:/order/list";
     }
 
@@ -101,6 +90,8 @@ public class OrderController {
     public String modify(OrderMasterForm orderMasterForm) {
         OrderDTO orderDTO = new OrderDTO();
         BeanUtils.copyProperties(orderMasterForm, orderDTO);
+        Date date = orderMasterForm.getInstallerTime();
+        orderDTO.setInstallTime(date);
         orderService.update(orderDTO);
         return "redirect:/order/list";
     }

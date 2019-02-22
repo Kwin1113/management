@@ -1,6 +1,8 @@
 package org.kwin.management.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -15,6 +17,8 @@ public class OrderForm {
 
     private Integer installerId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date installerTime;
 
     private Integer orderDeposit;

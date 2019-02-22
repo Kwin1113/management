@@ -18,152 +18,168 @@
     order_id, buyer_address, buyer_name, buyer_phone, installer_id, install_time, order_deposit,
     order_amount, order_status, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from order_master
     where order_id = #{orderId,jdbcType=VARCHAR}
+    and user_id = #{userId,jdbcType=INTEGER}
   </select>
   <select id="selectAll" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List"/>
     from order_master
+    where user_id = #{userId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+  <delete id="deleteByPrimaryKey" parameterType="map">
     delete from order_master
     where order_id = #{orderId,jdbcType=VARCHAR}
+    and user_id = #{userId,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="org.kwin.management.entity.OrderMaster">
-    insert into order_master (order_id, buyer_address, buyer_name, 
+    insert into order_master (order_id, user_id, buyer_address, buyer_name,
       buyer_phone, installer_id, install_time, 
       order_deposit, order_amount, order_status, 
       create_time, update_time)
-    values (#{orderId,jdbcType=VARCHAR}, #{buyerAddress,jdbcType=VARCHAR}, #{buyerName,jdbcType=VARCHAR}, 
-      #{buyerPhone,jdbcType=VARCHAR}, #{installerId,jdbcType=INTEGER}, #{installTime,jdbcType=TIMESTAMP}, 
-      #{orderDeposit,jdbcType=INTEGER}, #{orderAmount,jdbcType=INTEGER}, #{orderStatus,jdbcType=INTEGER}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+    values (#{orderMaster.orderId,jdbcType=VARCHAR}, #{userId,jdbcType=INTEGER}, #{orderMaster.buyerAddress,jdbcType=VARCHAR},
+    #{orderMaster.buyerName,jdbcType=VARCHAR},
+      #{orderMaster.buyerPhone,jdbcType=VARCHAR}, #{orderMaster.installerId,jdbcType=INTEGER}, #{orderMaster.installTime,jdbcType=TIMESTAMP},
+      #{orderMaster.orderDeposit,jdbcType=INTEGER}, #{orderMaster.orderAmount,jdbcType=INTEGER}, #{orderMaster.orderStatus,jdbcType=INTEGER},
+      #{orderMaster.createTime,jdbcType=TIMESTAMP}, #{orderMaster.updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="org.kwin.management.entity.OrderMaster">
     insert into order_master
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
+      <if test="orderMaster.orderId != null">
         order_id,
       </if>
-      <if test="buyerAddress != null">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="orderMaster.buyerAddress != null">
         buyer_address,
       </if>
-      <if test="buyerName != null">
+      <if test="orderMaster.buyerName != null">
         buyer_name,
       </if>
-      <if test="buyerPhone != null">
+      <if test="orderMaster.buyerPhone != null">
         buyer_phone,
       </if>
-      <if test="installerId != null">
+      <if test="orderMaster.installerId != null">
         installer_id,
       </if>
-      <if test="installTime != null">
+      <if test="orderMaster.installTime != null">
         install_time,
       </if>
-      <if test="orderDeposit != null">
+      <if test="orderMaster.orderDeposit != null">
         order_deposit,
       </if>
-      <if test="orderAmount != null">
+      <if test="orderMaster.orderAmount != null">
         order_amount,
       </if>
-      <if test="orderStatus != null">
+      <if test="orderMaster.orderStatus != null">
         order_status,
       </if>
-      <if test="createTime != null">
+      <if test="orderMaster.createTime != null">
         create_time,
       </if>
-      <if test="updateTime != null">
+      <if test="orderMaster.updateTime != null">
         update_time,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="orderId != null">
-        #{orderId,jdbcType=VARCHAR},
+      <if test="orderMaster.orderId != null">
+        #{orderMaster.orderId,jdbcType=VARCHAR},
       </if>
-      <if test="buyerAddress != null">
-        #{buyerAddress,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
       </if>
-      <if test="buyerName != null">
-        #{buyerName,jdbcType=VARCHAR},
+      <if test="orderMaster.buyerAddress != null">
+        #{orderMaster.buyerAddress,jdbcType=VARCHAR},
       </if>
-      <if test="buyerPhone != null">
-        #{buyerPhone,jdbcType=VARCHAR},
+      <if test="orderMaster.buyerName != null">
+        #{orderMaster.buyerName,jdbcType=VARCHAR},
       </if>
-      <if test="installerId != null">
-        #{installerId,jdbcType=INTEGER},
+      <if test="orderMaster.buyerPhone != null">
+        #{orderMaster.buyerPhone,jdbcType=VARCHAR},
       </if>
-      <if test="installTime != null">
-        #{installTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.installerId != null">
+        #{orderMaster.installerId,jdbcType=INTEGER},
       </if>
-      <if test="orderDeposit != null">
-        #{orderDeposit,jdbcType=INTEGER},
+      <if test="orderMaster.installTime != null">
+        #{orderMaster.installTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="orderAmount != null">
-        #{orderAmount,jdbcType=INTEGER},
+      <if test="orderMaster.orderDeposit != null">
+        #{orderMaster.orderDeposit,jdbcType=INTEGER},
       </if>
-      <if test="orderStatus != null">
-        #{orderStatus,jdbcType=INTEGER},
+      <if test="orderMaster.orderAmount != null">
+        #{orderMaster.orderAmount,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        #{createTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.orderStatus != null">
+        #{orderMaster.orderStatus,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null">
-        #{updateTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.createTime != null">
+        #{orderMaster.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMaster.updateTime != null">
+        #{orderMaster.updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="org.kwin.management.entity.OrderMaster">
     update order_master
     <set>
-      <if test="buyerAddress != null">
-        buyer_address = #{buyerAddress,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="buyerName != null">
-        buyer_name = #{buyerName,jdbcType=VARCHAR},
+      <if test="orderMaster.buyerAddress != null">
+        buyer_address = #{orderMaster.buyerAddress,jdbcType=VARCHAR},
       </if>
-      <if test="buyerPhone != null">
-        buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
+      <if test="orderMaster.buyerName != null">
+        buyer_name = #{orderMaster.buyerName,jdbcType=VARCHAR},
       </if>
-      <if test="installerId != null">
-        installer_id = #{installerId,jdbcType=INTEGER},
+      <if test="orderMaster.buyerPhone != null">
+        buyer_phone = #{orderMaster.buyerPhone,jdbcType=VARCHAR},
       </if>
-      <if test="installTime != null">
-        install_time = #{installTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.installerId != null">
+        installer_id = #{orderMaster.installerId,jdbcType=INTEGER},
       </if>
-      <if test="orderDeposit != null">
-        order_deposit = #{orderDeposit,jdbcType=INTEGER},
+      <if test="orderMaster.installTime != null">
+        install_time = #{orderMaster.installTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="orderAmount != null">
-        order_amount = #{orderAmount,jdbcType=INTEGER},
+      <if test="orderMaster.orderDeposit != null">
+        order_deposit = #{orderMaster.orderDeposit,jdbcType=INTEGER},
       </if>
-      <if test="orderStatus != null">
-        order_status = #{orderStatus,jdbcType=INTEGER},
+      <if test="orderMaster.orderAmount != null">
+        order_amount = #{orderMaster.orderAmount,jdbcType=INTEGER},
       </if>
-      <if test="createTime != null">
-        create_time = #{createTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.orderStatus != null">
+        order_status = #{orderMaster.orderStatus,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null">
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      <if test="orderMaster.createTime != null">
+        create_time = #{orderMaster.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderMaster.updateTime != null">
+        update_time = #{orderMaster.updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where order_id = #{orderId,jdbcType=VARCHAR}
+    where order_id = #{orderMaster.orderId,jdbcType=VARCHAR}
+    and user_id = #{userId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="org.kwin.management.entity.OrderMaster">
     update order_master
-    set buyer_address = #{buyerAddress,jdbcType=VARCHAR},
-      buyer_name = #{buyerName,jdbcType=VARCHAR},
-      buyer_phone = #{buyerPhone,jdbcType=VARCHAR},
-      installer_id = #{installerId,jdbcType=INTEGER},
-      install_time = #{installTime,jdbcType=TIMESTAMP},
-      order_deposit = #{orderDeposit,jdbcType=INTEGER},
-      order_amount = #{orderAmount,jdbcType=INTEGER},
-      order_status = #{orderStatus,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    set user_id = #{userId,jdbcType=INTEGER},
+      buyer_address = #{orderMaster.buyerAddress,jdbcType=VARCHAR},
+      buyer_name = #{orderMaster.buyerName,jdbcType=VARCHAR},
+      buyer_phone = #{orderMaster.buyerPhone,jdbcType=VARCHAR},
+      installer_id = #{orderMaster.installerId,jdbcType=INTEGER},
+      install_time = #{orderMaster.installTime,jdbcType=TIMESTAMP},
+      order_deposit = #{orderMaster.orderDeposit,jdbcType=INTEGER},
+      order_amount = #{orderMaster.orderAmount,jdbcType=INTEGER},
+      order_status = #{orderMaster.orderStatus,jdbcType=INTEGER},
+      create_time = #{orderMaster.createTime,jdbcType=TIMESTAMP},
+      update_time = #{orderMaster.updateTime,jdbcType=TIMESTAMP}
     where order_id = #{orderId,jdbcType=VARCHAR}
+    and user_id = #{userId,jdbcType=INTEGER}
   </update>
 </mapper>

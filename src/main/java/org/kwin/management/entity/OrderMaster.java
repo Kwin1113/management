@@ -1,9 +1,11 @@
 package org.kwin.management.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.kwin.management.enums.OrderStatusEnum;
 import org.kwin.management.utils.EnumUtil;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -19,6 +21,8 @@ public class OrderMaster {
 
     private Integer installerId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date installTime;
 
     private Integer orderDeposit;

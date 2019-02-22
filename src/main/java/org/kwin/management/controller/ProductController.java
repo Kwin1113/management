@@ -71,11 +71,8 @@ public class ProductController {
     @PostMapping("/add")
     public ModelMap add(@Valid ProductForm productForm, BindingResult result) {
         ModelMap model = new ModelMap();
-        Product product = new Product();
-        BeanUtils.copyProperties(productForm, product);
-        product.setProductId(KeyUtil.getUniqueKey());
         try {
-            productService.add(product);
+            productService.add(productForm);
         } catch (SysException e) {
             log.error("[新增商品]商品已存在={}", e.getMsg());
             model.addAttribute("msg", e.getMsg());

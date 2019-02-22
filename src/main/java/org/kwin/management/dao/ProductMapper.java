@@ -1,5 +1,6 @@
 package org.kwin.management.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.kwin.management.entity.Product;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface ProductMapper {
      * @param productId
      * @return
      */
-    int deleteByPrimaryKey(String productId);
+    int deleteByPrimaryKey(@Param("productId") String productId,@Param("userId") Integer userId);
 
     /**
      * 增加
@@ -19,7 +20,7 @@ public interface ProductMapper {
      * @param record
      * @return
      */
-    int insert(Product record);
+    int insert(@Param("product") Product record,@Param("userId") Integer userId);
 
     /**
      * 查找
@@ -27,16 +28,17 @@ public interface ProductMapper {
      * @param productId
      * @return
      */
-    Product selectByPrimaryKey(String productId);
+    Product selectByPrimaryKey(@Param("productId") String productId,@Param("userId") Integer userId);
 
     /**
      * 查找所有
      *
      * @return
      */
-    List<Product> selectAll();
+    List<Product> selectAll(Integer userId);
 
-    Product selectByTypeAndSizeAndDirection(String productType, String productSize, Integer productDirection);
+    Product selectByTypeAndSizeAndDirection(@Param("userId")Integer userId,@Param("productType") String productType,@Param("productSize") String productSize,
+                                            @Param("productDirection")Integer productDirection);
 
     /**
      * 更新
@@ -44,9 +46,9 @@ public interface ProductMapper {
      * @param record
      * @return
      */
-    int updateByPrimaryKeySelective(Product record);
+    int updateByPrimaryKeySelective(@Param("product") Product record,@Param("userId") Integer userId);
 
-    int updateByPrimaryKey(Product record);
+    int updateByPrimaryKey(@Param("product") Product record,@Param("userId") Integer userId);
 
-    int insertSelective(Product record);
+    int insertSelective(@Param("product") Product record,@Param("userId") Integer userId);
 }

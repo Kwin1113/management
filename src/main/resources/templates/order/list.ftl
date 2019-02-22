@@ -56,14 +56,23 @@
                             </button>
                         </div>
                     </div>
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">安装时间</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="text" name="installTime" class="form-control" id="installTime_add_input"-->
+                                   <#--placeholder="请输入安装时间...">-->
+                        <#--</div>-->
+                    <#--</div>-->
+
                     <div class="form-group">
                         <label class="col-sm-2 control-label">安装时间</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="installTime" class="form-control" id="installTime_add_input"
-                                   placeholder="请输入安装时间...">
+                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="yyyy-mm-dd"
+                              data-link-format="yyyy-mm-dd" id="installer_time_div" data-link-field="dtp_input2">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control" size="16" type="text" value="" name="installerTime" readonly>
                         </div>
+                        <#--<input type="hidden" id="dtp_input2" value="" name="installTime"/><br/>-->
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label">预付订金</label>
                         <div class="col-sm-10">
@@ -127,14 +136,23 @@
                             </select>
                         </div>
                     </div>
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">安装时间</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="text" name="installTime" class="form-control" id="installTime_modify_input"-->
+                                   <#--placeholder="请输入安装时间...">-->
+                        <#--</div>-->
+                    <#--</div>-->
                     <div class="form-group">
                         <label class="col-sm-2 control-label">安装时间</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="installTime" class="form-control" id="installTime_modify_input"
-                                   placeholder="请输入安装时间...">
+                        <div class="input-group date form_date col-sm-8" data-date="" data-date-format="yyyy-mm-dd"
+                             data-link-format="yyyy-mm-dd" id="installer_time_div" data-link-field="dtp_input2">
+                            <span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+                            <input class="form-control" size="16" type="text" value="" name="installerTime"
+                                   id="installTime_modify_input" readonly>
                         </div>
+                        <#--<input type="hidden" id="dtp_input2" value="" name="installTime"/><br/>-->
                     </div>
-
                     <div class="form-group">
                         <label class="col-sm-2 control-label">预付订金</label>
                         <div class="col-sm-10">
@@ -167,7 +185,7 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#orderAddModal">
                         订单新增
                     </button>
-                    <table class="table table-hover table-bordered table-condensed">
+                    <table class="table table-hover table-striped table-condensed">
                         <thead>
                         <tr>
                             <th>顾客地址</th>
@@ -314,6 +332,22 @@
         });
     });
 
+</script>
+<script type="text/javascript" src="/static/datatimepicker/bootstrap/js/bootstrap-datetimepicker.js"
+        charset="UTF-8"></script>
+<script type="text/javascript" src="/static/datatimepicker/bootstrap/js/locales/bootstrap-datetimepicker.zh-CN.js"
+        charset="UTF-8"></script>
+<script type="text/javascript">
+    $('.form_date').datetimepicker({
+        language:  'zh-CN',
+        weekStart: 1,
+        todayBtn:  1,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        forceParse: 0
+    });
 </script>
 <#include "../common/js.ftl">
 </html>

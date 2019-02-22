@@ -1,6 +1,5 @@
 package org.kwin.management.aspect;
 
-import io.netty.util.internal.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -27,9 +26,11 @@ public class UserAspect {
     @Autowired
     private StringRedisTemplate redisTemplate;
 
-    @Pointcut("execution(public * org.kwin.management.controller.*Controller.*(..))"+ "&& !execution(public * org" +
+    @Pointcut("execution(public * org.kwin.management.controller.*Controller.*(..))" + "&& !execution(public * org" +
             ".kwin.management.controller.UserController.*(..))")
-    public void verify() {}
+    public void verify() {
+    }
+
 
     @Before("verify()")
     public void doVerify() {
@@ -50,4 +51,6 @@ public class UserAspect {
             throw new SysUserException();
         }
     }
+
+
 }

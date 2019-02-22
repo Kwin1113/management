@@ -1,5 +1,6 @@
 package org.kwin.management.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.kwin.management.entity.OrderDetail;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface OrderDetailMapper {
      * @param detailId
      * @return
      */
-    int deleteByPrimaryKey(String detailId);
+    int deleteByPrimaryKey(@Param("detailId")String detailId,@Param("userId") Integer userId);
 
     /**
      * 增加
@@ -19,7 +20,7 @@ public interface OrderDetailMapper {
      * @param record
      * @return
      */
-    int insert(OrderDetail record);
+    int insert(@Param("orderDetail")OrderDetail record,@Param("userId") Integer userId);
 
     /**
      * 按详情id查找
@@ -27,15 +28,15 @@ public interface OrderDetailMapper {
      * @param detailId
      * @return
      */
-    OrderDetail selectByPrimaryKey(String detailId);
+    OrderDetail selectByPrimaryKey(@Param("detailId")String detailId,@Param("userId") Integer userId);
 
-    List<OrderDetail> selectByOrderId(String orderId);
+    List<OrderDetail> selectByOrderId(@Param("orderId")String orderId,@Param("userId") Integer userId);
 
-    List<OrderDetail> selectAll();
+    List<OrderDetail> selectAll(Integer userId);
 
-    int updateByPrimaryKeySelective(OrderDetail record);
+    int updateByPrimaryKeySelective(@Param("orderDetail")OrderDetail record,@Param("userId") Integer userId);
 
-    int updateByPrimaryKey(OrderDetail record);
+    int updateByPrimaryKey(@Param("orderDetail")OrderDetail record,@Param("userId") Integer userId);
 
-    int insertSelective(OrderDetail record);
+    int insertSelective(@Param("orderDetail")OrderDetail record,@Param("userId") Integer userId);
 }

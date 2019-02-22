@@ -141,7 +141,7 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#productAddModal">
                         商品新增
                     </button>
-                    <table class="table table-hover table-bordered table-condensed">
+                    <table class="table table-hover table-striped table-condensed">
                         <thead>
                         <tr>
                             <th>型号</th>

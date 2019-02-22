@@ -2,67 +2,67 @@
 <#include "../common/header.ftl"/>
 <body>
 <#--商品修改模态框-->
-<div class="modal fade" id="productModifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title" id="myModalLabel">修改商品</h4>
-            </div>
-            <form class="form-horizontal" method="post" action="/product/update">
-                <div class="modal-body">
-                    <input hidden type="text" name="productId" id="productId_modify_input">
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">款式</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="productType" class="form-control" id="productType_modify_input"
-                                   placeholder="请输入商品款式...">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">规格</label>
-                        <div class="col-sm-10">
-                            <input type="text" name="productSize" class="form-control" id="productSize_modify_input"
-                                   placeholder="请输入商品规格...">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">开向</label>
-                        <div class="col-sm-4">
-                            <select class="form-control" name="productDirection">
-                                <option value="1" selected>左内开</option>
-                                <option value="2">左外开</option>
-                                <option value="3">右内开</option>
-                                <option value="4">右外开</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">单价</label>
-                        <div class="col-sm-10">
-                            <input type="number" name="productPrice" class="form-control"
-                                   id="productPrice_modify_input"
-                                   placeholder="请输入商品单价...">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-2 control-label">库存</label>
-                        <div class="col-sm-10">
-                            <input type="number" name="productStock" class="form-control"
-                                   id="productStock_modify_input"
-                                   placeholder="请输入商品库存...">
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary" id="productModifyBtn">保存</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+<#--<div class="modal fade" id="productModifyModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">-->
+    <#--<div class="modal-dialog" role="document">-->
+        <#--<div class="modal-content">-->
+            <#--<div class="modal-header">-->
+                <#--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>-->
+                <#--</button>-->
+                <#--<h4 class="modal-title" id="myModalLabel">修改商品</h4>-->
+            <#--</div>-->
+            <#--<form class="form-horizontal" method="post" action="/product/update">-->
+                <#--<div class="modal-body">-->
+                    <#--<input hidden type="text" name="productId" id="productId_modify_input">-->
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">款式</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="text" name="productType" class="form-control" id="productType_modify_input"-->
+                                   <#--placeholder="请输入商品款式...">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">规格</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="text" name="productSize" class="form-control" id="productSize_modify_input"-->
+                                   <#--placeholder="请输入商品规格...">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">开向</label>-->
+                        <#--<div class="col-sm-4">-->
+                            <#--<select class="form-control" name="productDirection">-->
+                                <#--<option value="1" selected>左内开</option>-->
+                                <#--<option value="2">左外开</option>-->
+                                <#--<option value="3">右内开</option>-->
+                                <#--<option value="4">右外开</option>-->
+                            <#--</select>-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">单价</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="number" name="productPrice" class="form-control"-->
+                                   <#--id="productPrice_modify_input"-->
+                                   <#--placeholder="请输入商品单价...">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                    <#--<div class="form-group">-->
+                        <#--<label class="col-sm-2 control-label">库存</label>-->
+                        <#--<div class="col-sm-10">-->
+                            <#--<input type="number" name="productStock" class="form-control"-->
+                                   <#--id="productStock_modify_input"-->
+                                   <#--placeholder="请输入商品库存...">-->
+                        <#--</div>-->
+                    <#--</div>-->
+                <#--</div>-->
+                <#--<div class="modal-footer">-->
+                    <#--<button type="submit" class="btn btn-primary" id="productModifyBtn">保存</button>-->
+                    <#--<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>-->
+                <#--</div>-->
+            <#--</form>-->
+        <#--</div>-->
+    <#--</div>-->
+<#--</div>-->
 <div id="wrapper" class="toggled">
     <#--sidebar-->
     <#include "../common/nav.ftl">
@@ -74,7 +74,7 @@
                     <h3 class="text-info text-center">
                         订单详情
                     </h3>
-                    <table class="table table-hover table-bordered table-condensed">
+                    <table class="table table-hover table-striped table-condensed">
                         <thead>
                         <tr>
                             <th>顾客姓名</th>
@@ -152,12 +152,12 @@
         });
     }
 
-    $(document).on("click", ".modify_btn", function () {
-        getProduct($(this).attr("productId"));
-        $("#productId_modify_input").val($(this).attr("productId"));
-        $("#productModifyModal").modal({
-            backdrop: "static"
-        });
-    });
+    // $(document).on("click", ".modify_btn", function () {
+    //     getProduct($(this).attr("productId"));
+    //     $("#productId_modify_input").val($(this).attr("productId"));
+    //     $("#productModifyModal").modal({
+    //         backdrop: "static"
+    //     });
+    // });
 </script>
 </html>

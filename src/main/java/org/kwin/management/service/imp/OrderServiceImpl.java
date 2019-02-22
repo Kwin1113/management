@@ -1,6 +1,7 @@
 package org.kwin.management.service.imp;
 
 import lombok.extern.slf4j.Slf4j;
+import org.kwin.management.common.Const;
 import org.kwin.management.dao.OrderDetailMapper;
 import org.kwin.management.dao.OrderMasterMapper;
 import org.kwin.management.dto.CartDTO;
@@ -11,6 +12,8 @@ import org.kwin.management.entity.Product;
 import org.kwin.management.enums.OrderStatusEnum;
 import org.kwin.management.enums.ResultEnum;
 import org.kwin.management.exception.SysException;
+import org.kwin.management.form.OrderForm;
+import org.kwin.management.form.ProductAddForm;
 import org.kwin.management.service.OrderService;
 import org.kwin.management.service.ProductService;
 import org.kwin.management.utils.KeyUtil;
@@ -19,6 +22,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<OrderMaster> selectAll() {
-        List<OrderMaster> orderMasters = orderMasterMapper.selectAll();
+        List<OrderMaster> orderMasters = orderMasterMapper.selectAll(Integer.parseInt(Const.getCurrentUser()));
         return orderMasters;
     }
 
@@ -45,8 +50,8 @@ public class OrderServiceImpl implements OrderService {
     public OrderDTO selectOne(String orderId) {
         OrderDTO orderDTO = new OrderDTO();
 
-        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId);
-        List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(orderId);
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId,Integer.parseInt(Const.getCurrentUser()));
+        List<OrderDetail> orderDetails = orderDetailMapper.selectByOrderId(orderId,Integer.parseInt(Const.getCurrentUser()));
         BeanUtils.copyProperties(orderMaster, orderDTO);
         orderDTO.setOrderDetailList(orderDetails);
 
@@ -55,14 +60,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public OrderDTO add(OrderDTO orderDTO) {
+    public OrderDTO add(OrderForm orderForm) {
+        OrderDTO orderDTO = new OrderDTO();
+        BeanUtils.copyProperties(orderForm, orderDTO);
+
+        Date date = orderForm.getInstallerTime();
+        orderDTO.setInstallTime(date);
+
+        List<ProductAddForm> productAddFormList = orderForm.getProductAddFormList();
+        List<OrderDetail> orderDetailList = new ArrayList<>();
+        for (ProductAddForm productAddForm : productAddFormList) {
+            OrderDetail orderDetail = new OrderDetail();
+            Product product = productService.selectByTypeAndSizeAndDirection(productAddForm);
+            BeanUtils.copyProperties(product, orderDetail);
+            orderDetail.setProductQuantity(productAddForm.getProductQuantity());
+            orderDetailList.add(orderDetail);
+        }
+        orderDTO.setOrderDetailList(orderDetailList);
+
         //添加orderMaster
         String orderId = KeyUtil.getUniqueKey();
         Integer orderAmount = 0;
 
         //添加orderDetail
-        List<OrderDetail> orderDetailList = orderDTO.getOrderDetailList();
-        for (OrderDetail orderDetail : orderDetailList) {
+        List<OrderDetail> orderDetailList1 = orderDTO.getOrderDetailList();
+        for (OrderDetail orderDetail : orderDetailList1) {
             //订单详情入库
             Product product = productService.selectOne(orderDetail.getProductId());
             if (product == null) {
@@ -71,7 +93,7 @@ public class OrderServiceImpl implements OrderService {
             BeanUtils.copyProperties(product, orderDetail);
             orderDetail.setDetailId(KeyUtil.getUniqueKey());
             orderDetail.setOrderId(orderId);
-            orderDetailMapper.insert(orderDetail);
+            orderDetailMapper.insert(orderDetail,Integer.parseInt(Const.getCurrentUser()));
             orderAmount = orderAmount + orderDetail.getProductQuantity() * orderDetail.getProductPrice();
         }
 
@@ -80,7 +102,7 @@ public class OrderServiceImpl implements OrderService {
         orderMaster.setOrderId(orderId);
         orderMaster.setOrderAmount(orderAmount);
         orderMaster.setOrderStatus(OrderStatusEnum.NEW.getCode());
-        orderMasterMapper.insert(orderMaster);
+        orderMasterMapper.insert(orderMaster,Integer.parseInt(Const.getCurrentUser()));
 
         //扣库存
         List<CartDTO> cartDTOList = orderDTO.getOrderDetailList().stream()
@@ -100,9 +122,10 @@ public class OrderServiceImpl implements OrderService {
      */
     @Override
     public OrderDTO update(OrderDTO orderDTO) {
-        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderDTO.getOrderId());
+
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderDTO.getOrderId(),Integer.parseInt(Const.getCurrentUser()));
         BeanUtils.copyProperties(orderDTO, orderMaster);
-        orderMasterMapper.updateByPrimaryKeySelective(orderMaster);
+        orderMasterMapper.updateByPrimaryKeySelective(orderMaster,Integer.parseInt(Const.getCurrentUser()));
 
         return orderDTO;
     }
@@ -111,16 +134,16 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void cancel(String orderId) {
         //1.判断订单状态，只有NEW状态才能被取消
-        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId);
+        OrderMaster orderMaster = orderMasterMapper.selectByPrimaryKey(orderId,Integer.parseInt(Const.getCurrentUser()));
         if (orderMaster.getOrderStatus() != OrderStatusEnum.NEW.getCode()) {
             throw new SysException(ResultEnum.ORDER_STATUS_ERROR);
         }
         //2.修改订单状态
         orderMaster.setOrderStatus(OrderStatusEnum.CANCELED.getCode());
-        orderMasterMapper.updateByPrimaryKeySelective(orderMaster);
+        orderMasterMapper.updateByPrimaryKeySelective(orderMaster,Integer.parseInt(Const.getCurrentUser()));
 
         //3.修改库存
-        List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderId);
+        List<OrderDetail> orderDetailList = orderDetailMapper.selectByOrderId(orderId,Integer.parseInt(Const.getCurrentUser()));
         List<CartDTO> cartDTOList = orderDetailList.stream()
                 .map(e -> new CartDTO(e.getProductId(), e.getProductQuantity())).collect(Collectors.toList());
         productService.incrStock(cartDTOList);

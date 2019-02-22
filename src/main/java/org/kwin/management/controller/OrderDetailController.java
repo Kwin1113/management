@@ -5,6 +5,8 @@ import org.kwin.management.entity.Installer;
 import org.kwin.management.entity.OrderDetail;
 import org.kwin.management.entity.OrderMaster;
 import org.kwin.management.entity.Product;
+import org.kwin.management.enums.ResultEnum;
+import org.kwin.management.exception.SysException;
 import org.kwin.management.form.OrderDetailForm;
 import org.kwin.management.form.ProductAddForm;
 import org.kwin.management.service.InstallerService;
@@ -16,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -62,14 +65,8 @@ public class OrderDetailController {
 
     @PostMapping("/add")
     public String add(String orderId, ProductAddForm productAddForm) {
-        OrderDetail orderDetail = new OrderDetail();
-        BeanUtils.copyProperties(productAddForm, orderDetail);
-        orderDetail.setOrderId(orderId);
-        Product product = productService.selectByTypeAndSizeAndDirection(productAddForm);
-        orderDetail.setProductId(product.getProductId());
-        orderDetail.setDetailId(KeyUtil.getUniqueKey());
-        orderDetail.setProductPrice(product.getProductPrice());
-        orderDetailService.addDetail(orderDetail);
+
+        orderDetailService.addDetail(orderId, productAddForm);
         return "redirect:/order/detail/" + orderId;
     }
 
@@ -80,10 +77,16 @@ public class OrderDetailController {
     }
 
     @PostMapping("/update")
-    public String update(@Valid OrderDetailForm orderDetailForm, @RequestParam String orderId) {
-        OrderDetail orderDetail = new OrderDetail();
-        BeanUtils.copyProperties(orderDetailForm, orderDetail);
-        orderDetailService.updateDetail(orderDetail);
+    public String update(@Valid OrderDetailForm orderDetailForm, BindingResult result,
+                               @RequestParam String orderId) {
+//        if (result.hasErrors()) {
+//            log.error("[修改订单详情]表单校验错误:{}", result.getFieldError().getDefaultMessage());
+//            model.put("errorMsg", result.getFieldError().getDefaultMessage());
+//            return new ModelAndView("redirect:/order/detail/" + orderId, model);
+//        }
+
+        orderDetailService.updateDetail(orderDetailForm);
+//        return new ModelAndView("redirect:/order/detail/" + orderId, model);
         return "redirect:/order/detail/" + orderId;
     }
 }

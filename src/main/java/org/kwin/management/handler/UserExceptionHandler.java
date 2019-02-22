@@ -13,4 +13,5 @@ public class UserExceptionHandler {
     public ModelAndView handlerUserException() {
         return new ModelAndView("redirect:/user/login");
     }
+
 }

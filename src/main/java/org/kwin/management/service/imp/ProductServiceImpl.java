@@ -1,13 +1,17 @@
 package org.kwin.management.service.imp;
 
 import lombok.extern.slf4j.Slf4j;
+import org.kwin.management.common.Const;
 import org.kwin.management.dao.ProductMapper;
 import org.kwin.management.dto.CartDTO;
 import org.kwin.management.entity.Product;
 import org.kwin.management.enums.ResultEnum;
 import org.kwin.management.exception.SysException;
 import org.kwin.management.form.ProductAddForm;
+import org.kwin.management.form.ProductForm;
 import org.kwin.management.service.ProductService;
+import org.kwin.management.utils.KeyUtil;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
@@ -23,13 +27,13 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> selectALl() {
-        List<Product> products = productMapper.selectAll();
+        List<Product> products = productMapper.selectAll(Integer.parseInt(Const.CURRENT_USER));
         return products;
     }
 
     @Override
     public Product selectOne(String productId) {
-        Product product = productMapper.selectByPrimaryKey(productId);
+        Product product = productMapper.selectByPrimaryKey(productId, Integer.parseInt(Const.CURRENT_USER));
         return product;
     }
 
@@ -38,14 +42,18 @@ public class ProductServiceImpl implements ProductService {
         String productType = productAddForm.getProductType();
         String productSize = productAddForm.getProductSize();
         Integer productDirection = productAddForm.getProductDirection();
-        Product product = productMapper.selectByTypeAndSizeAndDirection(productType, productSize, productDirection);
+        Product product = productMapper.selectByTypeAndSizeAndDirection(Integer.parseInt(Const.CURRENT_USER),
+                productType, productSize, productDirection);
         return product;
     }
 
     @Override
-    public void add(Product product) {
+    public void add(ProductForm productForm) {
+        Product product = new Product();
+        BeanUtils.copyProperties(productForm, product);
+        product.setProductId(KeyUtil.getUniqueKey());
         try {
-            productMapper.insert(product);
+            productMapper.insert(product, Integer.parseInt(Const.CURRENT_USER));
         } catch (DuplicateKeyException e) {
             throw new SysException(ResultEnum.PRODUCT_EXIST);
         }
@@ -53,14 +61,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public int deleteById(String productId) {
-        int result = productMapper.deleteByPrimaryKey(productId);
+        int result = productMapper.deleteByPrimaryKey(productId, Integer.parseInt(Const.CURRENT_USER));
         return result;
     }
 
     @Override
     public void update(Product product) {
         try {
-            productMapper.updateByPrimaryKeySelective(product);
+            productMapper.updateByPrimaryKeySelective(product, Integer.parseInt(Const.CURRENT_USER));
         } catch (DuplicateKeyException e) {
             throw new SysException(ResultEnum.PRODUCT_EXIST);
         }
@@ -70,7 +78,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void descStock(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
-            Product product = productMapper.selectByPrimaryKey(cartDTO.getProductId());
+            Product product = productMapper.selectByPrimaryKey(cartDTO.getProductId(), Integer.parseInt(Const.CURRENT_USER));
             if (product == null) {
                 throw new SysException(ResultEnum.PRODUCT_NOT_EXIST);
             }
@@ -80,21 +88,21 @@ public class ProductServiceImpl implements ProductService {
             }
             product.setProductStock(result);
 
-            productMapper.updateByPrimaryKeySelective(product);
+            productMapper.updateByPrimaryKeySelective(product, Integer.parseInt(Const.CURRENT_USER));
         }
     }
 
     @Override
     public void incrStock(List<CartDTO> cartDTOList) {
         for (CartDTO cartDTO : cartDTOList) {
-            Product product = productMapper.selectByPrimaryKey(cartDTO.getProductId());
+            Product product = productMapper.selectByPrimaryKey(cartDTO.getProductId(), Integer.parseInt(Const.CURRENT_USER));
             if (product == null) {
                 throw new SysException(ResultEnum.PRODUCT_NOT_EXIST);
             }
             int result = product.getProductStock() + cartDTO.getProductQuantity();
             product.setProductStock(result);
 
-            productMapper.updateByPrimaryKeySelective(product);
+            productMapper.updateByPrimaryKeySelective(product, Integer.parseInt(Const.CURRENT_USER));
         }
     }
 }

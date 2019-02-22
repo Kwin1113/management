@@ -1,21 +1,22 @@
 package org.kwin.management.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.kwin.management.entity.Installer;
 
 import java.util.List;
 
 public interface InstallerMapper {
-    int deleteByPrimaryKey(Integer installerId);
+    int deleteByPrimaryKey(@Param("installerId")Integer installerId,@Param("userId") Integer userId);
 
-    int insert(Installer record);
+    int insert(@Param("installer")Installer record,@Param("userId")Integer userId);
 
-    int insertSelective(Installer record);
+    int insertSelective(@Param("installer")Installer record,@Param("userId")Integer userId);
 
-    Installer selectByPrimaryKey(Integer installerId);
+    Installer selectByPrimaryKey(@Param("installerId")Integer installerId,@Param("userId")Integer userId);
 
-    List<Installer> selectAll();
+    List<Installer> selectAll(Integer userId);
 
-    int updateByPrimaryKeySelective(Installer record);
+    int updateByPrimaryKeySelective(@Param("installer")Installer record,@Param("userId")Integer userId);
 
-    int updateByPrimaryKey(Installer record);
+    int updateByPrimaryKey(@Param("installer")Installer record,@Param("userId")Integer userId);
 }

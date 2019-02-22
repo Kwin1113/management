@@ -10,7 +10,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">新增详情</h4>
             </div>
-            <form class="form-horizontal" method="post" action="/detail/add">
+            <form class="form-horizontal" method="post" action="/detail/add" id="detail_add_form">
                 <div class="modal-body">
                     <input hidden type="text" name="orderId" id="orderId_add_input">
                     <div class="form-group">
@@ -72,7 +72,7 @@
                 </button>
                 <h4 class="modal-title" id="myModalLabel">修改详情</h4>
             </div>
-            <form class="form-horizontal" method="post" action="/detail/update">
+            <form class="form-horizontal" method="post" action="/detail/update" id="detail_modify_form">
                 <div class="modal-body">
                     <input hidden type="text" name="detailId" id="detailId_modify_input">
                     <input hidden type="text" name="orderId" id="orderId_modify_input">
@@ -169,7 +169,7 @@
             </div>
             <div class="row clearfix">
                 <div class="col-md-6 column">
-                    <table class="table">
+                    <table class="table table-hover table-striped table-condensed">
                         <thead>
                         <tr>
                             <th>型号</th>
@@ -255,6 +255,28 @@
             backdrop: "static"
         });
     });
+
+    // $(document).ready(function () {
+    //     var options = {
+    //         error: function (result) {
+    //             alert(result.errorMsg);
+    //             alert("操作失败");
+    //         },
+    //         success: function (result) {
+    //             if (null != result.errorMsg || "" !== result.errorMsg) {
+    //                 alert("???");
+    //             } else {
+    //                 alert("!!!");
+    //                 alert(result.errorMsg);
+    //             }
+    //         },
+    //         dataType: 'json'
+    //     };
+    //     $("#detail_modify_form").submit(function () {
+    //         $(this).ajaxSubmit(options);
+    //         return false;
+    //     });
+    // });
 </script>
 <#include "../common/js.ftl">
 </html>

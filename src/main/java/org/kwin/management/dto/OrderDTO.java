@@ -1,7 +1,9 @@
 package org.kwin.management.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.kwin.management.entity.OrderDetail;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -18,6 +20,8 @@ public class OrderDTO {
 
     private Integer installerId;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
     private Date installTime;
 
     private Integer orderDeposit;

@@ -10,6 +10,7 @@ public enum ResultEnum {
     ORDER_STATUS_ERROR(3, "订单状态错误！"),
     PRODUCT_EXIST(4, "商品已存在！"),
     STOCK_ERROR(5, "库存错误！"),
+    FORM_ERROR(6, "表单验证错误"),
     ;
 
     private Integer code;

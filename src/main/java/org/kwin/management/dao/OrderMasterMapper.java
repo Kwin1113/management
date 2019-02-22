@@ -1,5 +1,6 @@
 package org.kwin.management.dao;
 
+import org.apache.ibatis.annotations.Param;
 import org.kwin.management.entity.OrderMaster;
 
 import java.util.List;
@@ -11,7 +12,7 @@ public interface OrderMasterMapper {
      * @param orderId
      * @return
      */
-    int deleteByPrimaryKey(String orderId);
+    int deleteByPrimaryKey(@Param("orderId") String orderId,@Param("userId") Integer userId);
 
     /**
      * 增加
@@ -19,7 +20,7 @@ public interface OrderMasterMapper {
      * @param record
      * @return
      */
-    int insert(OrderMaster record);
+    int insert(@Param("orderMaster")OrderMaster record,@Param("userId") Integer userId);
 
     /**
      * 查找
@@ -27,18 +28,18 @@ public interface OrderMasterMapper {
      * @param orderId
      * @return
      */
-    OrderMaster selectByPrimaryKey(String orderId);
+    OrderMaster selectByPrimaryKey(@Param("orderId") String orderId,@Param("userId") Integer userId);
 
     /**
      * 查找全部
      *
      * @return
      */
-    List<OrderMaster> selectAll();
+    List<OrderMaster> selectAll(Integer userId);
 
-    int updateByPrimaryKeySelective(OrderMaster record);
+    int updateByPrimaryKeySelective(@Param("orderMaster")OrderMaster record,@Param("userId") Integer userId);
 
-    int updateByPrimaryKey(OrderMaster record);
+    int updateByPrimaryKey(@Param("orderMaster")OrderMaster record,@Param("userId") Integer userId);
 
-    int insertSelective(OrderMaster record);
+    int insertSelective(@Param("orderMaster")OrderMaster record,@Param("userId") Integer userId);
 }
