@@ -59,7 +59,7 @@ primary key (`installer_id`)
 
 create table user(
 `user_id` int not null auto_increment,
-`installer_name` varchar(32) not null comment '用户名',
+`user_name` varchar(32) not null comment '用户名',
 `password` varchar(64) not null comment '密码',
 `create_time` timestamp default current_timestamp comment '创建时间',
 `update_time` timestamp default current_timestamp on update current_timestamp comment '更新时间',
